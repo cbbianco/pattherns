@@ -10,11 +10,8 @@
   },
   "private": false,
   "keywords": [
-    "ddd",
-    "payload-management",
     "sdk"
   ],
-  "description": "SDK para gestión de logs y payloads.",
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
     "@types/node": "24.1.0",
@@ -22,12 +19,7 @@
     "ts-node": "10.9.2",
     "typescript": "5.3.3"
   },
-  "license": "ISC",
   "publishConfig": {
     "access": "restricted"
-  },
-  "repository": {
-    "type": "git",
-    "url": "codecommit::us-east-1://lib_audit_log"
   }
 }
