@@ -13,7 +13,7 @@ export class UserController {
    *
    * @param user
    */
-  @Post()
+  @Post('api/v1')
   async saveUser(
     @Body() user: UserDto,
   ): Promise<ResponseDto<User | undefined>> {

@@ -4,15 +4,21 @@ import { RolesEnum } from '../../../../dto/roles/roles.enum';
 import { User } from '../../../../entity/user.entity';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { UserRepository } from '../../../../repository/user.repository';
+import { GeneratePayload } from '../../generate/generate.payload';
 
 @Injectable()
-export class RolesAdminChain implements RolesChainInterface {
+export class RolesAdminChain
+  extends GeneratePayload
+  implements RolesChainInterface
+{
   private nextHandler: RolesChainInterface | null = null;
 
   constructor(
     @Inject(forwardRef(() => UserRepository))
     private repository: UserRepository,
-  ) {}
+  ) {
+    super();
+  }
   /**
    * @method handlerRole
    * @description Eslabon ADMIN
@@ -26,11 +32,7 @@ export class RolesAdminChain implements RolesChainInterface {
     if (type === RolesEnum.ADMIN) {
       const user = new User();
       user.email = request.email;
-      user.contextoAuditoria = JSON.stringify({
-        chain: 'RolesAdminChain',
-        level: 2,
-        date: new Date().toISOString(),
-      });
+      user.contextoAuditoria = this.generatePayloadByRole()
       return this.repository.saveUser(user);
     }
 
@@ -51,5 +53,19 @@ export class RolesAdminChain implements RolesChainInterface {
    */
   position(): number {
     return 1;
+  }
+
+  /**
+   * @method generatePayloadByRole
+   * @description Genera el payload por Role
+   *
+   * @protected
+   */
+  protected generatePayloadByRole() {
+    return JSON.stringify({
+      chain: 'RolesAdminChain',
+      level: 2,
+      date: new Date().toISOString(),
+    });
   }
 }
