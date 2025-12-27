@@ -1,0 +1,33 @@
+{
+  "name": "audit",
+  "version": "0.0.2",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:pack": "npm run build && npm pack",
+    "start:dev": "nodemon --watch src --exec \"ts-node audit/index.ts\"",
+    "build": "tsc"
+  },
+  "private": false,
+  "keywords": [
+    "ddd",
+    "payload-management",
+    "sdk"
+  ],
+  "description": "SDK para gestión de logs y payloads.",
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "24.1.0",
+    "nodemon": "^3.1.11",
+    "ts-node": "10.9.2",
+    "typescript": "5.3.3"
+  },
+  "license": "ISC",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "codecommit::us-east-1://lib_audit_log"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022", /* 2. Sistema de módulos moderno (ESM) */
+    "outDir": "./dist", /* 4. Directorio donde se guarda el JS compilado */
+    "rootDir": "./src", /* 5. Directorio donde reside el código fuente */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true, /* 7. Habilita todas las comprobaciones de tipado estricto */
+    "skipLibCheck": true /* 8. Ignora errores en archivos de librerías */
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
