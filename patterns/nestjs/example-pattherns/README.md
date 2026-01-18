@@ -1,37 +1,73 @@
-# User Roles Management - Chain of Responsibility & Template Method
+# NestJS Patterns & Anti-Patterns Example
 
-Este módulo gestiona la creación y persistencia de usuarios basándose en una jerarquía dinámica de roles. Utiliza patrones de diseño avanzados para garantizar la escalabilidad y el cumplimiento de los requerimientos de auditoría.
+This project is an educational sandbox designed to demonstrate software design patterns and common anti-patterns within a NestJS ecosystem. It serves as a practical guide for developers to understand specific implementation scenarios and best practices.
 
-## 🛠️ Patrones de Diseño Implementados
+## 📚 Patterns & Anti-Patterns Covered
 
-### 1. Chain of Responsibility (CoR)
-La lógica de decisión sobre qué rol procesar no reside en un `if/else` gigante, sino en una cadena de objetos independientes.
-- **RolesManager:** Actúa como el cliente que orquesta la cadena.
-- **RolesChainInterface:** Define la estructura de cada eslabón (`handlerRole`, `nextRole`, `position`).
-- **Eslabones:** `RolesAdminChain` y `RolesSuperadminChain` procesan la solicitud o la delegan al siguiente.
+### 1. Chain of Responsibility (Design Pattern)
+**Goal:** Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.
 
-### 2. Template Method
-Utilizado para la generación de contextos de auditoría específicos por cada rol.
-- **Clase Abstracta `GeneratePayload`:** Define el contrato para la creación de metadatos.
-- **Implementación:** Cada cadena extiende esta clase y personaliza el JSON de auditoría (por ejemplo, el `level` o la estructura del `date`).
+- **Implementation**: The role validation logic for users is decoupled into a chain of handlers.
+- **Key Components**:
+  - `RolesManager`: Orchestrates the chain.
+  - `RolesAdminChain` & `RolesSuperadminChain`: Concrete handlers processing user roles effectively.
+- **Location**: `src/user/service/roles/`
 
-## ⚙️ Flujo de Ejecución
+### 2. Parameter Object (Refactoring Pattern) vs. Excessive Parameters (Anti-Pattern)
+**Goal:** Group multiple parameters that naturally belong together into a single object (DTO).
 
-1. **Registro:** En `UserService`, se registran las clases de la cadena en el `RolesManager`.
-2. **Inicialización:** Durante el `onModuleInit`, el manager ordena los eslabones según su `position()`.
-3. **Procesamiento:**
-    - El `UserController` recibe el `UserDto`.
-    - El `RolesManager` inicia el recorrido en el primer eslabón.
-    - Si el `levelRol` coincide, el eslabón genera su payload, persiste en el `UserRepository` y retorna.
+- **Anti-Pattern (The Problem)**:
+  - `searchObjectsAntiPattern`: A method signature with a long list of individual arguments (`objectType`, `selectedObject`, `idNumber`, etc.), making the code hard to read and maintain.
+- **Pattern (The Solution)**:
+  - `searchObjectsWithOutAntiPattern`: The same functionality refactored to use a `SearchObjectsDto`, handling all filters in a single, structured object.
+- **Location**: `src/anti-pattherns/controller/anti-pattherns.controller.ts`
 
-## 📋 Ejemplo de Contexto de Auditoría Generado
+## 🚀 Getting Started
 
-Dependiendo del eslabón que procese la solicitud, el campo `contextoAuditoria` en la base de datos variará:
+### Prerequisites
+- Node.js (v18+)
+- MySQL Database
 
-**Para Admin:**
-```json
-{
-  "chain": "RolesAdminChain",
-  "level": 2,
-  "date": "2025-12-27T..."
-}
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure your database connection in `src/app.module.ts` (or use Environment Variables).
+
+### Running the app
+
+```bash
+# development
+npm run start
+
+# watch mode
+npm run start:dev
+
+# production mode
+npm run start:prod
+```
+
+## 🧪 Testing
+
+```bash
+# unit tests
+npm run test
+
+# e2e tests
+npm run test:e2e
+
+# test coverage
+npm run test:cov
+```
+
+## 📝 License
+
+This project is [UNLICENSED](LICENSE).
