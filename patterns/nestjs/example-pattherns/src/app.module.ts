@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AntiPatternsModule } from './anti-pattherns/anti-patterns.module';
 
 @Module({
   imports: [
@@ -15,8 +16,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: false,
     }),
     UserModule,
+    AntiPatternsModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
