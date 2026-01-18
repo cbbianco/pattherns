@@ -4,10 +4,13 @@ This project is an educational sandbox designed to demonstrate software design p
 
 ## 📚 Patterns & Anti-Patterns Covered
 
-### 1. Chain of Responsibility (Design Pattern)
-**Goal:** Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.
+### 1. Chain of Responsibility (Design Pattern) vs. Abuse of If/Switch (Anti-Pattern)
+**Goal:** Avoid coupling the sender of a request to its receiver and eliminate complex conditional logic.
 
-- **Implementation**: The role validation logic for users is decoupled into a chain of handlers.
+- **Anti-Pattern (The Problem)**:
+  - **Abuse of If/Switch ("Condition Hell")**: Managing complex business rules (like user role permissions) through deep nested `if/else` or massive `switch` statements. This violates the **Open/Closed Principle** as every new rule requires modifying the core logic.
+- **Pattern (The Solution)**:
+  - **Chain of Responsibility**: The role validation logic is decoupled into a chain of independent handlers. Each handler decides whether to process the request or pass it along, making the system easy to extend without modifying existing code.
 - **Key Components**:
   - `RolesManager`: Orchestrates the chain.
   - `RolesAdminChain` & `RolesSuperadminChain`: Concrete handlers processing user roles effectively.
